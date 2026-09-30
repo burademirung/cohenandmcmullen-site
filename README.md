@@ -12,7 +12,8 @@ Premium, motion-led static site for Cohen & McMullen, P.A. (complex litigation a
 | `site/assets/css/site.css`, `site/assets/js/site.js` | Design system and motion layer (GSAP + ScrollTrigger + Lenis, vendored). |
 | `site/assets/video/` | Web encodes of the Runway films: `name.mp4` (1920px) and `name-sm.mp4` (960px, mobile). |
 | `brand/` | Runway logo masters (crest and lockup, transparent PNG). |
-| `scripts/transcode-web.sh` | Re-encodes Runway 4K masters into the web films and posters. |
+| `scripts/transcode-web.sh` | Re-encodes the original text-to-video Runway 4K masters into web films and posters. |
+| `scripts/transcode-real.sh` | Encodes the photoreal image-first films (courthouse, boardroom, war room, card, chess, sword, forensic, crest) from their 4K masters. |
 | `scripts/pagehash.json` | Content hashes so `lastmod` / `dateModified` change only when a page's content changes. |
 | `research/source-content.md` | Everything extracted from the firm's current website (the only content source). |
 | `wrangler.jsonc` | Cloudflare deploy config (assets directory `site`). |
@@ -32,7 +33,13 @@ Edit copy in `scripts/build.py` (dicts `PEOPLE`, `PRACTICES`, `FLORIDA`, `HOME_F
 - `robots.txt` welcomes AI crawlers; `llms.txt` and `llms-full.txt` (plain text of every page); `sitemap.xml` with content-based `lastmod`.
 - Legacy Wix URLs preserved or redirected (`site/_redirects`); caching and security headers in `site/_headers`.
 
+## Film pipeline (Runway)
+1. **Still:** GPT Image 2.5 Flare generates a photoreal 16:9 frame (prompted as real photography: camera, lens, materials, "not CGI"). The crest still uses `brand/crest-master.png` as a reference so the mark stays exact.
+2. **Motion:** Gen‑4.5 image-to-video, 10s, restrained camera moves with "objects stay rigid, no morphing".
+3. **Upscale:** Runway *Upscale Video* to 4096×2304 (Runway's maximum; 8K is not offered).
+4. **Encode:** `scripts/transcode-real.sh <folder>` → 1920px (≈2.2 Mbps cap) and 960px mobile encodes plus WebP posters.
+
 ## Design rules from the brief
-No icons, no numbered markers or stat counters, tiles with real footage, full-screen film on every page, the firm's crest everywhere. Motion respects `prefers-reduced-motion`, data-saver connections skip films, and a static fallback shows all content if animation frames never run.
+No icons, no numbered markers or stat counters, tiles with real footage, full-screen film on every page, the firm's crest everywhere. No custom cursor and no page-transition screen (removed at the client's request); links are prefetched so navigation is instant. The header keeps "Request a free case evaluation" visible at all times, and phones get a pinned evaluation bar. Motion respects `prefers-reduced-motion`, data-saver connections skip films, and a static fallback shows all content if animation frames never run.
 
 See `HANDOFF.md` for launch decisions that need the firm's input.

@@ -11,9 +11,12 @@ Three independent audits (content accuracy + Florida Bar advertising, technical 
 - Discover settlement page rewritten as a closed-claim status page (see decision 2).
 - SEO: VideoObject markup removed (films are decorative), schema types corrected, page types, breadcrumbs, OG/Twitter images, favicons, self-hosted fonts, responsive posters, heading order, related-practice linking, content-based lastmod, `llms-full.txt`, legacy redirects.
 - Performance: films re-encoded with bitrate caps (≈104 MB → ≈44 MB total, ≤2.8 MB per desktop film, ≤0.6 MB mobile), fonts self-hosted, header logo 320px WebP.
-- Custom cursor removed at the client's request.
+- Custom cursor and page-transition screen removed at the client's request.
+- Client feedback rounds applied: readable FAQ panels and footer motto, always-visible evaluation CTA, tighter layout with a sticky consultation rail on practice pages, attorney cards rebuilt (full colour, aligned, credentials visible), press wall with real CNN / Fox News / NBC / CNBC logos, menu redesigned, full mobile pass.
+- Eight films that read as synthetic (including the courthouse flag glitch) were regenerated image-first for photoreal results; see README "Film pipeline".
 
 ## Decisions needed before pointing the real domain
+0. **Network logos.** The press wall shows CNN, Fox News, NBC and CNBC marks (from Wikimedia Commons) to reference Bradford M. Cohen's commentary appearances. Confirm the firm is comfortable with nominative use; Law&Crime, The Dan Abrams Show, Nancy Grace and Celebrity Justice appear as text.
 1. **Contact form endpoint.** The form has `data-endpoint=""`; until set, submitting opens the visitor's email app to info@floridajusticefirm.com. Provide a form service / CRM webhook (or approve a Cloudflare Worker that emails the firm).
 2. **Discover settlement page.** The firm's page states claims closed May 18, 2026, yet the live Wix page still takes sign-ups. Confirm whether the deadline was extended and who handles claims (the old page used ostrow@kolawyers.com). If still open, the eligibility form can be rebuilt; it collects EINs, so it needs a secure endpoint.
 3. **Robinhood class action.** The old site had `/robinhood-class-action`; it now redirects to `/practice-areas/`. Provide content if that page should return.
