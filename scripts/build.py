@@ -551,7 +551,6 @@ def footer():
   </div>
 </footer>
 <nav class="callbar" aria-label="Quick contact"><a href="/contact/">Request a free case evaluation</a><a href="tel:{PHONE_TEL}">Call</a></nav>
-<div class="curtain" aria-hidden="true"><div class="curtain__panel"></div><div class="curtain__edge"></div><img class="curtain__crest" src="/assets/img/brand/crest-sm.webp" alt="" width="141" height="260"></div>
 <div class="grain" aria-hidden="true"></div>'''
 
 
@@ -653,7 +652,7 @@ def page(path, title, desc, body, current, film, graph, speakable=True, page_typ
         webpage["speakable"] = {"@type": "SpeakableSpecification", "cssSelector": ["h1", ".answer", ".lede"]}
     ld = json.dumps({"@context": "https://schema.org", "@graph": [FIRM_LD] + graph + [webpage]}, ensure_ascii=False, indent=1).replace("</", "<\\/")
     return f'''<!doctype html>
-<html lang="en-US" class="is-loading">
+<html lang="en-US">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -749,13 +748,21 @@ HOME_FAQ = [
 
 
 def badges_marquee():
-    """Real network logos where Bradford M. Cohen has given legal commentary (source: his bio)."""
+    """Press wall: outlets where Bradford M. Cohen has given legal commentary (source: his bio)."""
     logos = [("cnn", "CNN"), ("fox-news", "Fox News"), ("nbc", "NBC"), ("cnbc", "CNBC")]
-    row = "".join(f'<li><img src="/assets/img/press/{k}.svg" alt="{e(n)}" loading="lazy" width="160" height="64"></li>' for k, n in logos)
-    others = "Law&Crime Network, The Dan Abrams Show, Nancy Grace and Celebrity Justice"
-    return (f'<section class="press" aria-labelledby="press-h"><div class="wrap">'
-            f'<p class="press__label" id="press-h">Legal commentary by <a class="link-line" href="/bradford-cohen/">Bradford M. Cohen</a> has been featured on</p>'
-            f'<ul class="press__logos">{row}</ul><p class="press__more">Also {e(others)}.</p></div></section>')
+    words = ["Law&Crime Network", "The Dan Abrams Show", "Nancy Grace", "Celebrity Justice"]
+    cells = "".join(f'<li class="press__cell"><img src="/assets/img/press/{k}.svg" alt="{e(n)}" loading="lazy" width="160" height="64"></li>' for k, n in logos)
+    cells += "".join(f'<li class="press__cell press__cell--word"><span>{e(w)}</span></li>' for w in words)
+    return f'''<section class="press" aria-labelledby="press-h">
+  <div class="wrap press__grid">
+    <div class="press__intro" data-reveal>
+      <p class="kicker">In the national conversation</p>
+      <h2 id="press-h">Legal commentary heard on national television</h2>
+      <p class="muted"><a class="link-line" href="/bradford-cohen/">Bradford M. Cohen</a> is regularly asked to analyze high-profile cases for national audiences.</p>
+    </div>
+    <ul class="press__wall" data-reveal>{cells}</ul>
+  </div>
+</section>'''
 
 def city_tiles(la_cls='style="grid-column: span 3"'):
     return f'''

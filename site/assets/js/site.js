@@ -74,46 +74,14 @@
   const firstVisit = (() => { try { const f = !sessionStorage.getItem('cm-seen'); sessionStorage.setItem('cm-seen', '1'); return f; } catch (e) { return false; } })();
 
   function intro() {
-    if (!hasGsap || reduced || !curtain) { doc.classList.remove('is-loading'); heroIn(); return; }
-    const tl = gsap.timeline({ onComplete: () => doc.classList.remove('is-loading') });
-    if (firstVisit && !fromOutside) {
-      tl.fromTo(crest, { opacity: 0, scale: 0.92, clipPath: 'inset(0 0 100% 0)' }, { opacity: 1, scale: 1, clipPath: 'inset(0 0 0% 0)', duration: 0.6, ease: 'power3.out' })
-        .to(crest, { opacity: 0, y: -24, duration: 0.3, ease: 'power2.in' }, '+=0.1');
-    } else {
-      tl.set(crest, { opacity: 0 });
-    }
-    tl.set(panel, { transformOrigin: 'top' })
-      .set(edge, { top: '100%', opacity: 1 })
-      .call(() => doc.classList.remove('is-loading'))
-      .to(panel, { scaleY: 0, duration: fromOutside ? 0.6 : 0.85, ease: 'expo.inOut' }, '<')
-      .to(edge, { top: '0%', duration: fromOutside ? 0.6 : 0.85, ease: 'expo.inOut' }, '<')
-      .to(edge, { opacity: 0, duration: 0.3 })
-      .add(heroIn, fromOutside ? '-=0.7' : '-=0.9');
+    doc.classList.remove('is-loading');
+    heroIn();
   }
 
-  function leave(href) {
-    if (!hasGsap || reduced || !curtain) { window.location.href = href; return; }
-    doc.classList.add('is-loading');
-    gsap.set(crest, { opacity: 0 });
-    gsap.set(panel, { transformOrigin: 'bottom', scaleY: 0 });
-    gsap.set(edge, { top: '100%', opacity: 1 });
-    gsap.timeline({ onComplete: () => { window.location.href = href; } })
-      .to(panel, { scaleY: 1, duration: 0.75, ease: 'expo.inOut' })
-      .to(edge, { top: '0%', duration: 0.75, ease: 'expo.inOut' }, '<');
-  }
-
+  // Close the menu when navigating within the site (no transition screen).
   document.addEventListener('click', (e) => {
     const a = e.target.closest('a');
-    if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
-    if (a.target && a.target !== '_self') return;
-    const href = a.getAttribute('href');
-    if (!href || href.startsWith('#') || a.target === '_blank' || a.hasAttribute('download') || /^(mailto|tel):/.test(href)) return;
-    const url = new URL(a.href, location.href);
-    if (url.origin !== location.origin) return;
-    if (url.pathname === location.pathname && url.hash) return;
-    e.preventDefault();
-    closeMenu(false);
-    leave(url.href);
+    if (a && menu && menu.contains(a)) closeMenu(false);
   });
   window.addEventListener('pageshow', (e) => {
     if (e.persisted) { resumeVisible(); doc.classList.remove('is-loading'); if (hasGsap && panel) { gsap.set(panel, { scaleY: 0 }); gsap.set(edge, { opacity: 0 }); } }
