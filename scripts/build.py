@@ -392,6 +392,7 @@ TILE_LAYOUT = ["tile--7", "tile--5", "tile--5", "tile--7", "tile--6", "tile--6"]
 BADGES = ["badge-1.png", "badge-2.png", "badge-3.png", "badge-4.png", "badge-5.png"]
 BADGE_ALT = ["Super Lawyers", "The Best Lawyers in America", "National Association of Criminal Defense Lawyers", "Florida Association of Criminal Defense Lawyers", "National Association of Distinguished Counsel, Top One Percent"]
 
+NAV_NOTES = {"/": "The firm", "/practice-areas/": "Where we fight", "/about/": "Si vis pacem, para bellum", "/people/": "The trial team", "/locations/": "Fort Lauderdale and New York", "/contact/": "Free case evaluation"}
 NAV = [
     ("Home", "/", "courtroom"),
     ("Practice Areas", "/practice-areas/", "evidence"),
@@ -493,7 +494,7 @@ def header(current):
     links = []
     for i, (name, url, film) in enumerate(NAV):
         cur = ' aria-current="page"' if url == current else ""
-        links.append(f'<a href="{url}" data-film="{film}" style="--i:{i}"{cur}>{e(name)}</a>')
+        links.append(f'<a href="{url}" data-film="{film}" data-caption="{e(NAV_NOTES[url])}" style="--i:{i}"{cur}><span class="menu__name">{e(name)}</span><span class="menu__note">{e(NAV_NOTES[url])}</span></a>')
     subs = "".join(f'<a href="/{s}/">{e(PRACTICES[s]["name"])}</a>' for s in PRACTICE_ORDER)
     return f'''<a class="skip" href="#main">Skip to content</a>
 <header class="header">
@@ -505,19 +506,17 @@ def header(current):
   </div>
 </header>
 <div class="menu" id="site-menu" role="dialog" aria-modal="true" aria-label="Site menu" data-lenis-prevent>
-  <div class="menu__bg"></div><img class="menu__crest" src="/assets/img/brand/crest.webp" alt="" aria-hidden="true" loading="lazy" width="487" height="900">
-  <div class="menu__films" aria-hidden="true">{films}</div>
+  <div class="menu__bg"></div>
   <div class="menu__inner">
     <nav class="menu__nav" aria-label="Main">{"".join(links)}</nav>
     <div class="menu__side">
-      <p class="menu__label">Practice areas</p>
-      <div class="menu__sub">{subs}</div>
-      <p class="menu__label">Fort Lauderdale</p>
-      <address>1132 SE 3rd Avenue<br>Fort Lauderdale, FL 33316</address>
-      <p class="menu__label">New York</p>
-      <address>745 Fifth Avenue, Suite 500<br>New York, NY 10151</address>
-      <a class="btn btn--solid" href="tel:{PHONE_TEL}">Call {PHONE}</a>
-      <p><button class="motion-toggle link-line" type="button" aria-pressed="false">Pause motion</button></p>
+      <div class="menu__preview" aria-hidden="true"><div class="menu__films">{films}</div><p class="menu__caption"></p></div>
+      <div class="menu__contact">
+        <div><p class="menu__label">Fort Lauderdale</p><address>1132 SE 3rd Avenue<br>Fort Lauderdale, FL 33316</address></div>
+        <div><p class="menu__label">New York</p><address>745 Fifth Avenue, Suite 500<br>New York, NY 10151</address></div>
+      </div>
+      <div class="menu__actions"><a class="btn btn--solid" href="/contact/">Request a free case evaluation</a><a class="btn" href="tel:{PHONE_TEL}">Call {PHONE}</a></div>
+      <p class="menu__foot"><button class="motion-toggle link-line" type="button" aria-pressed="false">Pause motion</button></p>
     </div>
   </div>
 </div>'''

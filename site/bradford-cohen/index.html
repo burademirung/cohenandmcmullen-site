@@ -27,7 +27,7 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preload" as="image" href="/assets/img/film/chess.webp" imagesrcset="/assets/img/film/chess-sm.webp 960w, /assets/img/film/chess.webp 1920w" imagesizes="100vw" fetchpriority="high">
 <link rel="stylesheet" href="/assets/css/fonts.css?v=e262c039">
-<link rel="stylesheet" href="/assets/css/site.css?v=11f42343">
+<link rel="stylesheet" href="/assets/css/site.css?v=095d8b4b">
 <script>(function(d){var h=d.documentElement;try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)h.classList.remove('is-loading')}catch(e){}setTimeout(function(){if(h.classList.contains('is-loading')&&!window.__cmReady){h.classList.remove('is-loading');h.classList.add('no-motion')}},3000)})(document)</script>
 <script type="speculationrules">{"prefetch":[{"where":{"href_matches":"/*"},"eagerness":"moderate"}]}</script>
 <noscript><style>.curtain{display:none}[data-reveal]{opacity:1;transform:none}.film__media video,.tile__media video,.crest-film video,.rail__film video,.menu__films{display:none}</style></noscript>
@@ -276,19 +276,17 @@
   </div>
 </header>
 <div class="menu" id="site-menu" role="dialog" aria-modal="true" aria-label="Site menu" data-lenis-prevent>
-  <div class="menu__bg"></div><img class="menu__crest" src="/assets/img/brand/crest.webp" alt="" aria-hidden="true" loading="lazy" width="487" height="900">
-  <div class="menu__films" aria-hidden="true"><video muted loop playsinline preload="none" data-key="courtroom" data-src="/assets/video/courtroom-sm.mp4" aria-hidden="true"></video><video muted loop playsinline preload="none" data-key="evidence" data-src="/assets/video/evidence-sm.mp4" aria-hidden="true"></video><video muted loop playsinline preload="none" data-key="crest" data-src="/assets/video/crest-sm.mp4" aria-hidden="true"></video><video muted loop playsinline preload="none" data-key="library" data-src="/assets/video/library-sm.mp4" aria-hidden="true"></video><video muted loop playsinline preload="none" data-key="fort-lauderdale" data-src="/assets/video/fort-lauderdale-sm.mp4" aria-hidden="true"></video><video muted loop playsinline preload="none" data-key="office" data-src="/assets/video/office-sm.mp4" aria-hidden="true"></video></div>
+  <div class="menu__bg"></div>
   <div class="menu__inner">
-    <nav class="menu__nav" aria-label="Main"><a href="/" data-film="courtroom" style="--i:0">Home</a><a href="/practice-areas/" data-film="evidence" style="--i:1">Practice Areas</a><a href="/about/" data-film="crest" style="--i:2">About the Firm</a><a href="/people/" data-film="library" style="--i:3" aria-current="page">People</a><a href="/locations/" data-film="fort-lauderdale" style="--i:4">Locations</a><a href="/contact/" data-film="office" style="--i:5">Contact</a></nav>
+    <nav class="menu__nav" aria-label="Main"><a href="/" data-film="courtroom" data-caption="The firm" style="--i:0"><span class="menu__name">Home</span><span class="menu__note">The firm</span></a><a href="/practice-areas/" data-film="evidence" data-caption="Where we fight" style="--i:1"><span class="menu__name">Practice Areas</span><span class="menu__note">Where we fight</span></a><a href="/about/" data-film="crest" data-caption="Si vis pacem, para bellum" style="--i:2"><span class="menu__name">About the Firm</span><span class="menu__note">Si vis pacem, para bellum</span></a><a href="/people/" data-film="library" data-caption="The trial team" style="--i:3" aria-current="page"><span class="menu__name">People</span><span class="menu__note">The trial team</span></a><a href="/locations/" data-film="fort-lauderdale" data-caption="Fort Lauderdale and New York" style="--i:4"><span class="menu__name">Locations</span><span class="menu__note">Fort Lauderdale and New York</span></a><a href="/contact/" data-film="office" data-caption="Free case evaluation" style="--i:5"><span class="menu__name">Contact</span><span class="menu__note">Free case evaluation</span></a></nav>
     <div class="menu__side">
-      <p class="menu__label">Practice areas</p>
-      <div class="menu__sub"><a href="/criminal-defense/">Criminal Defense</a><a href="/commercial-litigation/">Commercial Litigation</a><a href="/contracts-corporate-formation/">Contracts &amp; Corporate Formation</a><a href="/wrongful-death/">Wrongful Death</a><a href="/catastrophic-injury/">Catastrophic Injury</a><a href="/products-liability/">Products Liability</a></div>
-      <p class="menu__label">Fort Lauderdale</p>
-      <address>1132 SE 3rd Avenue<br>Fort Lauderdale, FL 33316</address>
-      <p class="menu__label">New York</p>
-      <address>745 Fifth Avenue, Suite 500<br>New York, NY 10151</address>
-      <a class="btn btn--solid" href="tel:+19545237774">Call (954) 523-7774</a>
-      <p><button class="motion-toggle link-line" type="button" aria-pressed="false">Pause motion</button></p>
+      <div class="menu__preview" aria-hidden="true"><div class="menu__films"><video muted loop playsinline preload="none" data-key="courtroom" data-src="/assets/video/courtroom-sm.mp4" aria-hidden="true"></video><video muted loop playsinline preload="none" data-key="evidence" data-src="/assets/video/evidence-sm.mp4" aria-hidden="true"></video><video muted loop playsinline preload="none" data-key="crest" data-src="/assets/video/crest-sm.mp4" aria-hidden="true"></video><video muted loop playsinline preload="none" data-key="library" data-src="/assets/video/library-sm.mp4" aria-hidden="true"></video><video muted loop playsinline preload="none" data-key="fort-lauderdale" data-src="/assets/video/fort-lauderdale-sm.mp4" aria-hidden="true"></video><video muted loop playsinline preload="none" data-key="office" data-src="/assets/video/office-sm.mp4" aria-hidden="true"></video></div><p class="menu__caption"></p></div>
+      <div class="menu__contact">
+        <div><p class="menu__label">Fort Lauderdale</p><address>1132 SE 3rd Avenue<br>Fort Lauderdale, FL 33316</address></div>
+        <div><p class="menu__label">New York</p><address>745 Fifth Avenue, Suite 500<br>New York, NY 10151</address></div>
+      </div>
+      <div class="menu__actions"><a class="btn btn--solid" href="/contact/">Request a free case evaluation</a><a class="btn" href="tel:+19545237774">Call (954) 523-7774</a></div>
+      <p class="menu__foot"><button class="motion-toggle link-line" type="button" aria-pressed="false">Pause motion</button></p>
     </div>
   </div>
 </div>
@@ -407,6 +405,6 @@
 <script src="/assets/js/vendor/gsap.min.js?v=3.12.5" defer></script>
 <script src="/assets/js/vendor/ScrollTrigger.min.js?v=3.12.5" defer></script>
 <script src="/assets/js/vendor/lenis.min.js?v=1.1.13" defer></script>
-<script src="/assets/js/site.js?v=3c45d19e" defer></script>
+<script src="/assets/js/site.js?v=7e159476" defer></script>
 </body>
 </html>

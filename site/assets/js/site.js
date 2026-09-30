@@ -227,7 +227,9 @@
   const menuBtn = document.querySelector('.menu-btn');
   const menu = document.querySelector('.menu');
   const menuFilms = menu ? [...menu.querySelectorAll('.menu__films video')] : [];
-  function setFilm(key) {
+  const menuCaption = menu ? menu.querySelector('.menu__caption') : null;
+  function setFilm(key, caption) {
+    if (menuCaption && caption) menuCaption.textContent = caption;
     menuFilms.forEach((v) => {
       const on = v.dataset.key === key;
       v.classList.toggle('is-on', on);
@@ -243,9 +245,10 @@
     menu.removeAttribute('inert');
     if (lenis) lenis.stop();
     const current = menu.querySelector('[aria-current="page"]');
-    setFilm(current ? current.dataset.film : (menuFilms[0] && menuFilms[0].dataset.key));
+    const start = current || menu.querySelector('[data-film]');
+    if (start) setFilm(start.dataset.film, start.dataset.caption);
     const first = menu.querySelector('.menu__nav a');
-    if (first) setTimeout(() => first.focus({ preventScroll: true }), 50);
+    if (first) setTimeout(() => first.focus({ preventScroll: true, focusVisible: false }), 50);
   }
   function closeMenu(returnFocus = true) {
     if (!menu || !doc.classList.contains('menu-open')) return;
@@ -263,8 +266,8 @@
     menuBtn.addEventListener('click', () => (doc.classList.contains('menu-open') ? closeMenu() : openMenu()));
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && doc.classList.contains('menu-open')) closeMenu(); });
     menu.querySelectorAll('[data-film]').forEach((a) => {
-      a.addEventListener('mouseenter', () => setFilm(a.dataset.film));
-      a.addEventListener('focus', () => setFilm(a.dataset.film));
+      a.addEventListener('mouseenter', () => setFilm(a.dataset.film, a.dataset.caption));
+      a.addEventListener('focus', () => setFilm(a.dataset.film, a.dataset.caption));
     });
   }
 
