@@ -550,7 +550,7 @@ def footer():
     </div>
   </div>
 </footer>
-<nav class="callbar" aria-label="Quick contact"><a href="/contact/">Request a free case evaluation</a><a href="tel:{PHONE_TEL}">Call now</a></nav>
+<nav class="callbar" aria-label="Quick contact"><a href="/contact/">Request a free case evaluation</a><a href="tel:{PHONE_TEL}">Call</a></nav>
 <div class="curtain" aria-hidden="true"><div class="curtain__panel"></div><div class="curtain__edge"></div><img class="curtain__crest" src="/assets/img/brand/crest-sm.webp" alt="" width="141" height="260"></div>
 <div class="grain" aria-hidden="true"></div>'''
 

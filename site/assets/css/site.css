@@ -571,3 +571,51 @@ html.menu-open { overflow: hidden; }
 .rail__title { font-size: clamp(20px, 1.5vw, 24px); }
 .rail__team { font-size: 14px; }
 @media (min-width: 901px) { .split > .rail { top: 96px; max-height: calc(100vh - 112px); } }
+
+/* ---------- Mobile excellence pass ---------- */
+@media (max-width: 720px) {
+  .film { min-height: 600px; }
+  .film__content { padding-bottom: 104px; padding-right: var(--gutter); }
+  .film__content h1 { font-size: clamp(38px, 10.5vw, 52px); line-height: 1.02; }
+  .film__lede { margin-top: 18px; gap: 18px; }
+  .film__lede .lede { font-size: 17px; line-height: 1.5; padding-right: 4px; }
+  .film__actions { width: 100%; }
+  .film__actions .btn { flex: 1 1 100%; }
+  .film__actions .btn + .btn { display: none; } /* call button lives in the pinned bar */
+  .crumbs { font-size: 13px; margin-bottom: 14px; }
+  /* Manifesto: static on phones, no dead scroll */
+  .manifesto { height: auto; }
+  .manifesto__stage { position: relative; height: auto; min-height: 88svh; padding: 90px 0; }
+  .manifesto__text .w { opacity: 1 !important; }
+  .manifesto__text { font-size: clamp(32px, 9vw, 44px); }
+  /* Crest film framed for portrait screens */
+  .crest-film { height: auto; min-height: 0; aspect-ratio: 3 / 4; }
+  .crest-film__cap { bottom: 22px; padding: 0 var(--gutter); }
+  /* Attorney cards: one per row, portrait beside text */
+  .people-grid--four, .people-grid { grid-template-columns: 1fr; gap: 12px; }
+  .person { flex-direction: row; align-items: stretch; }
+  .person img { width: 42%; aspect-ratio: auto; height: auto; min-height: 190px; object-fit: cover; flex: 0 0 42%; }
+  .person__body { padding: 16px 16px 18px; }
+  .person__name { font-size: 22px; }
+  .person__short { font-size: 14px; }
+  /* Section rhythm */
+  .section { padding: 56px 0; }
+  h2 { font-size: clamp(32px, 8.6vw, 42px); }
+  .head-row { margin-bottom: 24px; gap: 12px; }
+  .tile { min-height: 64vw; }
+  .tile__title { font-size: clamp(28px, 8vw, 36px); }
+  .qa summary { padding: 18px 18px; font-size: 17px; }
+  .qa__a { padding: 0 18px 20px; font-size: 16px; }
+  .press__logos { gap: 28px 34px; }
+  .press__logos img { height: 30px; }
+  .footer__big { font-size: 15vw; }
+  .cta { min-height: 0; padding: 72px 0 96px; }
+  .cta__phone { font-size: 36px; }
+  .rail__card { display: block; }
+}
+@media (max-width: 720px) {
+  .callbar { left: 10px; right: 10px; bottom: max(10px, env(safe-area-inset-bottom)); gap: 6px; }
+  .callbar a { padding: 15px 8px; font-size: 14.5px; white-space: nowrap; }
+  .callbar a:first-child { flex: 3; }
+  .callbar a + a { flex: 1; }
+}

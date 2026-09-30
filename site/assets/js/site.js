@@ -186,7 +186,7 @@
       onEnter: (els) => gsap.fromTo(els, { clipPath: 'inset(16% 0% 0% 0%)', y: 60 }, { clipPath: 'inset(0% 0% 0% 0%)', y: 0, duration: 1.4, ease: 'expo.out', stagger: 0.1, overwrite: true }),
     });
 
-    document.querySelectorAll('.manifesto').forEach((m) => {
+    if (window.matchMedia('(min-width: 721px)').matches) document.querySelectorAll('.manifesto').forEach((m) => {
       const text = m.querySelector('.manifesto__text');
       splitWords(text, 'w');
       const words = text.querySelectorAll('.w');
