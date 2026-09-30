@@ -245,7 +245,7 @@
   const onScroll = () => {
     const y = window.scrollY;
     header.classList.toggle('is-scrolled', y > 40);
-    header.classList.toggle('is-hidden', y > lastY && y > 400 && !doc.classList.contains('menu-open'));
+    // Header (and its case-evaluation button) stays visible at all times.
     lastY = y;
   };
   window.addEventListener('scroll', onScroll, { passive: true });

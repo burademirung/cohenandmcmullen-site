@@ -500,7 +500,7 @@ def header(current):
   <a class="brand" href="/" aria-label="{e(FIRM)} home"><img src="/assets/img/brand/lockup-320.webp" srcset="/assets/img/brand/lockup-320.webp 320w, /assets/img/brand/lockup-640.webp 640w" sizes="160px" alt="{e(FIRM)}" width="320" height="141"></a>
   <div class="header__right">
     <a class="header__phone" href="tel:{PHONE_TEL}">{PHONE}</a>
-    <a class="btn" href="/contact/">Free case evaluation</a>
+    <a class="btn btn--solid header__cta" href="/contact/">Request a free case evaluation</a>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu"><span class="menu-btn__label">Menu</span><span class="menu-btn__bars" aria-hidden="true"></span></button>
   </div>
 </header>
@@ -549,7 +549,7 @@ def footer():
     </div>
   </div>
 </footer>
-<div class="callbar"><a href="tel:{PHONE_TEL}">Call now</a><a href="/contact/">Free evaluation</a></div>
+<div class="callbar"><a href="/contact/">Request a free case evaluation</a><a href="tel:{PHONE_TEL}">Call now</a></div>
 <div class="curtain" aria-hidden="true"><div class="curtain__panel"></div><div class="curtain__edge"></div><img class="curtain__crest" src="/assets/img/brand/crest-sm.webp" alt="" width="141" height="260"></div>
 <div class="grain" aria-hidden="true"></div>'''
 
