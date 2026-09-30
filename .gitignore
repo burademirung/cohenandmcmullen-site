@@ -1,0 +1,11 @@
+# Runway masters (4K, ~600 MB) stay local / in Runway; web encodes live in site/assets/video
+runway-4k/
+runway-raw/
+# Tooling
+.wrangler/
+.playwright-mcp/
+.remember/
+.claude/
+node_modules/
+.DS_Store
+__pycache__/
