@@ -1,12 +1,14 @@
 /* Cohen & McMullen, P.A. — motion layer.
    Everything degrades: without GSAP/Lenis, or with reduced motion, content stays readable and films show posters. */
 (function () {
-  window.__cmReady = true;
   const doc = document.documentElement;
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   const hasGsap = typeof window.gsap !== 'undefined' && typeof window.ScrollTrigger !== 'undefined';
   if (reduced) doc.classList.add('reduced');
+  let paused = false;
+  try { paused = localStorage.getItem('cm-paused') === '1'; } catch (e) { /* storage unavailable */ }
+  if (paused) doc.classList.add('motion-paused');
   if (!hasGsap) doc.classList.add('no-motion');
   if (hasGsap) gsap.registerPlugin(ScrollTrigger);
 
@@ -35,7 +37,7 @@
     v.dataset.loaded = '1';
   };
   const playVideo = (v) => {
-    if (reduced || saveData) return;
+    if (reduced || saveData || doc.classList.contains('motion-paused')) return;
     loadVideo(v);
     const p = v.play();
     if (p && p.catch) p.catch(() => {});
@@ -47,14 +49,14 @@
       else if (v.dataset.loaded) v.pause();
     });
   }, { rootMargin: '200px 0px', threshold: 0.1 });
-  // Background tabs defer media; resume whatever is on screen once the tab is shown.
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) return;
-    document.querySelectorAll('video[data-loaded]').forEach((v) => {
+  // Background tabs and back/forward cache defer media; resume whatever is on screen.
+  function resumeVisible() {
+    document.querySelectorAll('video[data-src]').forEach((v) => {
       const r = v.getBoundingClientRect();
       if (r.bottom > 0 && r.top < innerHeight && v.paused && (!v.closest('.menu') || v.classList.contains('is-on'))) playVideo(v);
     });
-  });
+  }
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) resumeVisible(); });
   document.querySelectorAll('video[data-src]').forEach((v) => {
     if (v.closest('.menu')) return;
     vio.observe(v);
@@ -82,7 +84,8 @@
     }
     tl.set(panel, { transformOrigin: 'top' })
       .set(edge, { top: '100%', opacity: 1 })
-      .to(panel, { scaleY: 0, duration: fromOutside ? 0.6 : 0.85, ease: 'expo.inOut' })
+      .call(() => doc.classList.remove('is-loading'))
+      .to(panel, { scaleY: 0, duration: fromOutside ? 0.6 : 0.85, ease: 'expo.inOut' }, '<')
       .to(edge, { top: '0%', duration: fromOutside ? 0.6 : 0.85, ease: 'expo.inOut' }, '<')
       .to(edge, { opacity: 0, duration: 0.3 })
       .add(heroIn, fromOutside ? '-=0.7' : '-=0.9');
@@ -101,18 +104,19 @@
 
   document.addEventListener('click', (e) => {
     const a = e.target.closest('a');
-    if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+    if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+    if (a.target && a.target !== '_self') return;
     const href = a.getAttribute('href');
     if (!href || href.startsWith('#') || a.target === '_blank' || a.hasAttribute('download') || /^(mailto|tel):/.test(href)) return;
     const url = new URL(a.href, location.href);
     if (url.origin !== location.origin) return;
     if (url.pathname === location.pathname && url.hash) return;
     e.preventDefault();
-    closeMenu();
+    closeMenu(false);
     leave(url.href);
   });
   window.addEventListener('pageshow', (e) => {
-    if (e.persisted) { doc.classList.remove('is-loading'); if (hasGsap && panel) { gsap.set(panel, { scaleY: 0 }); gsap.set(edge, { opacity: 0 }); } }
+    if (e.persisted) { resumeVisible(); doc.classList.remove('is-loading'); if (hasGsap && panel) { gsap.set(panel, { scaleY: 0 }); gsap.set(edge, { opacity: 0 }); } }
   });
 
   /* ---------- Word splitting ---------- */
@@ -220,7 +224,7 @@
       document.querySelectorAll('.btn, .cta__phone').forEach((b) => {
         b.addEventListener('mousemove', (e) => {
           const r = b.getBoundingClientRect();
-          gsap.to(b, { x: (e.clientX - r.left - r.width / 2) * 0.2, y: (e.clientY - r.top - r.height / 2) * 0.3, duration: 0.6, ease: 'power3.out' });
+          gsap.to(b, { x: (e.clientX - r.left - r.width / 2) * 0.2, y: (e.clientY - r.top - r.height / 2) * 0.3, duration: 0.6, ease: 'power3.out', overwrite: 'auto' });
         });
         b.addEventListener('mouseleave', () => gsap.to(b, { x: 0, y: 0, duration: 0.9, ease: 'elastic.out(1, 0.4)' }));
       });
@@ -262,50 +266,82 @@
       if (on) playVideo(v); else if (v.dataset.loaded) v.pause();
     });
   }
+  const outside = [document.querySelector('main'), document.querySelector('footer'), document.querySelector('.callbar')];
   function openMenu() {
     doc.classList.add('menu-open');
+    outside.forEach((el) => el && el.setAttribute('inert', ''));
     menuBtn.setAttribute('aria-expanded', 'true');
     menuBtn.querySelector('.menu-btn__label').textContent = 'Close';
     menu.removeAttribute('inert');
     if (lenis) lenis.stop();
     const current = menu.querySelector('[aria-current="page"]');
     setFilm(current ? current.dataset.film : (menuFilms[0] && menuFilms[0].dataset.key));
+    const first = menu.querySelector('.menu__nav a');
+    if (first) setTimeout(() => first.focus({ preventScroll: true }), 50);
   }
-  function closeMenu() {
+  function closeMenu(returnFocus = true) {
     if (!menu || !doc.classList.contains('menu-open')) return;
     doc.classList.remove('menu-open');
+    outside.forEach((el) => el && el.removeAttribute('inert'));
     menuBtn.setAttribute('aria-expanded', 'false');
     menuBtn.querySelector('.menu-btn__label').textContent = 'Menu';
     menu.setAttribute('inert', '');
     if (lenis) lenis.start();
     menuFilms.forEach((v) => v.dataset.loaded && v.pause());
+    if (returnFocus) menuBtn.focus();
   }
   if (menuBtn && menu) {
     menu.setAttribute('inert', '');
     menuBtn.addEventListener('click', () => (doc.classList.contains('menu-open') ? closeMenu() : openMenu()));
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && doc.classList.contains('menu-open')) closeMenu(); });
     menu.querySelectorAll('[data-film]').forEach((a) => {
       a.addEventListener('mouseenter', () => setFilm(a.dataset.film));
       a.addEventListener('focus', () => setFilm(a.dataset.film));
     });
   }
 
-  /* ---------- Accordions: animate open/close ---------- */
+  /* ---------- Accordions: animate open/close (safe against rapid clicks) ---------- */
   document.querySelectorAll('.qa details').forEach((d) => {
     const s = d.querySelector('summary');
     const body = d.querySelector('.qa__a');
+    let anim = null;
+    const refresh = () => { if (hasGsap) ScrollTrigger.refresh(); };
     s.addEventListener('click', (e) => {
       if (reduced || !body.animate) return;
       e.preventDefault();
-      const refresh = () => { if (hasGsap) ScrollTrigger.refresh(); };
-      if (d.open) {
-        const a = body.animate([{ height: body.offsetHeight + 'px', opacity: 1 }, { height: '0px', opacity: 0 }], { duration: 450, easing: 'cubic-bezier(.22,1,.36,1)' });
-        a.onfinish = () => { d.open = false; refresh(); };
+      const closing = anim ? d.dataset.state === 'open' : d.open;
+      const from = body.offsetHeight;
+      if (anim) anim.cancel();
+      body.style.overflow = 'hidden';
+      if (closing) {
+        d.dataset.state = 'closed';
+        anim = body.animate([{ height: from + 'px' }, { height: '0px', opacity: 0 }], { duration: 420, easing: 'cubic-bezier(.22,1,.36,1)' });
+        anim.onfinish = () => { d.open = false; body.style.overflow = ''; anim = null; refresh(); };
       } else {
+        d.dataset.state = 'open';
         d.open = true;
-        const h = body.offsetHeight;
-        body.animate([{ height: '0px', opacity: 0 }, { height: h + 'px', opacity: 1 }], { duration: 600, easing: 'cubic-bezier(.22,1,.36,1)' }).onfinish = refresh;
+        const h = body.scrollHeight;
+        anim = body.animate([{ height: from + 'px', opacity: 0 }, { height: h + 'px', opacity: 1 }], { duration: 560, easing: 'cubic-bezier(.22,1,.36,1)' });
+        anim.onfinish = () => { body.style.overflow = ''; anim = null; refresh(); };
       }
+    });
+  });
+
+  /* ---------- Pause motion (WCAG 2.2.2) ---------- */
+  document.querySelectorAll('.motion-toggle').forEach((btn) => {
+    const sync = () => {
+      const on = doc.classList.contains('motion-paused');
+      btn.setAttribute('aria-pressed', String(on));
+      btn.textContent = on ? 'Play motion' : 'Pause motion';
+    };
+    sync();
+    btn.addEventListener('click', () => {
+      const on = !doc.classList.contains('motion-paused');
+      doc.classList.toggle('motion-paused', on);
+      try { localStorage.setItem('cm-paused', on ? '1' : ''); } catch (e) { /* storage unavailable */ }
+      document.querySelectorAll('video').forEach((v) => { if (on) v.pause(); });
+      if (!on) resumeVisible();
+      document.querySelectorAll('.motion-toggle').forEach((b) => { b.setAttribute('aria-pressed', String(on)); b.textContent = on ? 'Play motion' : 'Pause motion'; });
     });
   });
 
@@ -331,7 +367,7 @@
       }
       const body = `Name: ${data.name}\nEmail: ${data.email}\nPhone: ${data.phone}\nPractice area: ${data.area || ''}\n\n${data.message}`;
       window.location.href = `mailto:info@floridajusticefirm.com?subject=${encodeURIComponent('Free case evaluation request')}&body=${encodeURIComponent(body)}`;
-      status.textContent = 'Your email app is opening with your request ready to send.';
+      status.textContent = 'Your email app should open with your request ready to send. If it does not, email info@floridajusticefirm.com or call (954) 523-7774.';
     });
   });
 
@@ -364,4 +400,5 @@
       heroIn();
     }
   }, 4500);
+  window.__cmReady = true;
 })();

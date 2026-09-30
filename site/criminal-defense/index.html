@@ -25,13 +25,12 @@
 <link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png">
 <link rel="icon" href="/favicon-192.png" sizes="192x192" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/bodoni-moda-normal-latin.woff2" crossorigin>
 <link rel="preload" as="image" href="/assets/img/film/courthouse.webp" imagesrcset="/assets/img/film/courthouse-sm.webp 960w, /assets/img/film/courthouse.webp 1920w" imagesizes="100vw" fetchpriority="high">
 <link rel="stylesheet" href="/assets/css/fonts.css?v=e262c039">
-<link rel="stylesheet" href="/assets/css/site.css?v=d0820d82">
+<link rel="stylesheet" href="/assets/css/site.css?v=85fc24a8">
 <script>(function(d){var h=d.documentElement;try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)h.classList.remove('is-loading')}catch(e){}setTimeout(function(){if(h.classList.contains('is-loading')&&!window.__cmReady){h.classList.remove('is-loading');h.classList.add('no-motion')}},3000)})(document)</script>
 <script type="speculationrules">{"prefetch":[{"where":{"href_matches":"/*"},"eagerness":"moderate"}]}</script>
-<noscript><style>.curtain{display:none}[data-reveal]{opacity:1;transform:none}</style></noscript>
+<noscript><style>.curtain{display:none}[data-reveal]{opacity:1;transform:none}.film__media video,.tile__media video,.crest-film video,.rail__film video,.menu__films{display:none}</style></noscript>
 <script type="application/ld+json">{
  "@context": "https://schema.org",
  "@graph": [
@@ -244,7 +243,7 @@
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu"><span class="menu-btn__label">Menu</span><span class="menu-btn__bars" aria-hidden="true"></span></button>
   </div>
 </header>
-<div class="menu" id="site-menu">
+<div class="menu" id="site-menu" role="dialog" aria-modal="true" aria-label="Site menu" data-lenis-prevent>
   <div class="menu__bg"></div><img class="menu__crest" src="/assets/img/brand/crest.webp" alt="" aria-hidden="true" loading="lazy" width="487" height="900">
   <div class="menu__films" aria-hidden="true"><video muted loop playsinline preload="none" data-key="courtroom" data-src="/assets/video/courtroom-sm.mp4" aria-hidden="true"></video><video muted loop playsinline preload="none" data-key="evidence" data-src="/assets/video/evidence-sm.mp4" aria-hidden="true"></video><video muted loop playsinline preload="none" data-key="crest" data-src="/assets/video/crest-sm.mp4" aria-hidden="true"></video><video muted loop playsinline preload="none" data-key="library" data-src="/assets/video/library-sm.mp4" aria-hidden="true"></video><video muted loop playsinline preload="none" data-key="fort-lauderdale" data-src="/assets/video/fort-lauderdale-sm.mp4" aria-hidden="true"></video><video muted loop playsinline preload="none" data-key="office" data-src="/assets/video/office-sm.mp4" aria-hidden="true"></video></div>
   <div class="menu__inner">
@@ -257,6 +256,7 @@
       <p class="menu__label">New York</p>
       <address>745 Fifth Avenue, Suite 500<br>New York, NY 10151</address>
       <a class="btn btn--solid" href="tel:+19545237774">Call (954) 523-7774</a>
+      <p><button class="motion-toggle link-line" type="button" aria-pressed="false">Pause motion</button></p>
     </div>
   </div>
 </div>
@@ -264,7 +264,7 @@
 
 <section class="film" aria-label="Introduction">
   <div class="film__media"><img src="/assets/img/film/courthouse.webp" srcset="/assets/img/film/courthouse-sm.webp 960w, /assets/img/film/courthouse.webp 1920w" sizes="100vw" alt="" width="1920" height="1080" fetchpriority="high" decoding="async"><video muted loop playsinline preload="none" aria-hidden="true" data-src="/assets/video/courthouse.mp4" data-src-sm="/assets/video/courthouse-sm.mp4"></video></div>
-  <p class="film__rail" aria-hidden="true">Si vis pacem, para bellum</p>
+  <p class="film__rail" aria-hidden="true" lang="la">Si vis pacem, para bellum</p>
   <div class="wrap film__content">
     <nav class="crumbs" aria-label="Breadcrumb" data-hero-fade><a href="/">Home</a><span aria-hidden="true">/</span><a href="/practice-areas/">Practice Areas</a><span aria-hidden="true">/</span><span aria-current="page">Criminal Defense</span></nav>
     <h1 data-split>Criminal defense in state and federal court</h1>
@@ -274,7 +274,18 @@
 </section>
 <section class="section" aria-label="Criminal Defense overview">
   <div class="wrap split">
-    <div><p class="answer" data-reveal>If you are under investigation or have been charged, stop talking to investigators and call a defense attorney. Cohen &amp; McMullen, P.A. tries criminal cases in Florida state court and federal court, from misdemeanors to serious felonies.</p></div>
+    <aside class="rail" aria-label="Talk to an attorney">
+      <p class="answer" data-reveal>If you are under investigation or have been charged, stop talking to investigators and call a defense attorney. Cohen &amp; McMullen, P.A. tries criminal cases in Florida state court and federal court, from misdemeanors to serious felonies.</p>
+      <div class="rail__card" data-reveal>
+        <div class="rail__film"><img src="/assets/img/film/courthouse-sm.webp" alt="" width="960" height="540" loading="lazy" decoding="async"><video muted loop playsinline preload="none" aria-hidden="true" data-src="/assets/video/courthouse-sm.mp4"></video></div>
+        <div class="rail__body">
+          <p class="rail__title">Talk to an attorney about criminal defense</p>
+          <p class="rail__team"><a class="link-line" href="/bradford-cohen/">Bradford M. Cohen</a>, <a class="link-line" href="/andrew-courtney/">Andrew B. Courtney</a>, <a class="link-line" href="/michael-mcmullen/">Michael J. McMullen</a>, <a class="link-line" href="/ethan-strauss/">Ethan J. Strauss</a></p>
+          <a class="btn btn--solid rail__btn" href="/contact/">Request a free case evaluation</a>
+          <a class="rail__phone" href="tel:+19545237774">(954) 523-7774</a>
+        </div>
+      </div>
+    </aside>
     <div class="prose" data-reveal>
       <h2>How does the firm defend criminal cases?</h2><p>Our attorneys have significant criminal trial experience in both state and federal courts. <a class="link-line" href="/bradford-cohen/">Bradford M. Cohen</a>, a former President of the Broward Association of Criminal Defense Lawyers, received the triple “Hat Trick” for nine acquittals in a row. Prior results do not guarantee a similar outcome. <a class="link-line" href="/andrew-courtney/">Andrew B. Courtney</a> was a lead felony prosecutor in Broward County and tried cases from DUI to murder.</p><p>We prepare every case with a jury in mind. That preparation is designed to strengthen your position in every negotiation, and it is what protects you if the case does go to trial.</p>
       <h2>What to know in Florida</h2>
@@ -292,17 +303,17 @@
   <div class="wrap">
     <div class="head-row"><h2 id="team-h" data-reveal>Who will be in your corner</h2><p data-reveal>Attorneys who handle criminal defense matters at the firm.</p></div>
     <div class="people-grid"><a class="person" href="/bradford-cohen/">
-  <img src="/assets/img/bradford-cohen.webp" alt="Portrait of Bradford M. Cohen, Partner" loading="lazy" decoding="async">
-  <div class="person__body"><h3 class="person__name">Bradford M. Cohen</h3><span class="person__role">Partner</span></div>
+  <img src="/assets/img/bradford-cohen.webp" alt="" loading="lazy" decoding="async">
+  <div class="person__body"><span class="person__role">Partner</span><h3 class="person__name">Bradford M. Cohen</h3><p class="person__short">A trial lawyer of more than twenty-five years, in criminal and civil courtrooms.</p><span class="person__more">Read biography</span></div>
 </a><a class="person" href="/andrew-courtney/">
-  <img src="/assets/img/andrew-courtney.webp" alt="Portrait of Andrew B. Courtney, Partner" loading="lazy" decoding="async">
-  <div class="person__body"><h3 class="person__name">Andrew B. Courtney</h3><span class="person__role">Partner</span></div>
+  <img src="/assets/img/andrew-courtney.webp" alt="" loading="lazy" decoding="async">
+  <div class="person__body"><span class="person__role">Partner</span><h3 class="person__name">Andrew B. Courtney</h3><p class="person__short">Former lead felony prosecutor in Broward County. Now he defends.</p><span class="person__more">Read biography</span></div>
 </a><a class="person" href="/michael-mcmullen/">
-  <img src="/assets/img/michael-mcmullen.webp" alt="Portrait of Michael J. McMullen, Partner" loading="lazy" decoding="async">
-  <div class="person__body"><h3 class="person__name">Michael J. McMullen</h3><span class="person__role">Partner</span></div>
+  <img src="/assets/img/michael-mcmullen.webp" alt="" loading="lazy" decoding="async">
+  <div class="person__body"><span class="person__role">Partner</span><h3 class="person__name">Michael J. McMullen</h3><p class="person__short">Raised in Fort Lauderdale. Commercial litigation, catastrophic injury, contracts and technology companies.</p><span class="person__more">Read biography</span></div>
 </a><a class="person" href="/ethan-strauss/">
-  <img src="/assets/img/ethan-strauss.webp" alt="Portrait of Ethan J. Strauss, Associate" loading="lazy" decoding="async">
-  <div class="person__body"><h3 class="person__name">Ethan J. Strauss</h3><span class="person__role">Associate</span></div>
+  <img src="/assets/img/ethan-strauss.webp" alt="" loading="lazy" decoding="async">
+  <div class="person__body"><span class="person__role">Associate</span><h3 class="person__name">Ethan J. Strauss</h3><p class="person__short">Summa cum laude, Nova Law Review, and former judicial intern. Personal injury, commercial litigation and defense.</p><span class="person__more">Read biography</span></div>
 </a></div>
   </div>
 </section>
@@ -347,7 +358,7 @@
 </section>
 </main>
 <footer class="footer">
-  <div class="footer__big" aria-hidden="true">Si vis pacem, para bellum &nbsp; Si vis pacem, para bellum</div>
+  <div class="footer__big" aria-hidden="true" lang="la">Si vis pacem, para bellum &nbsp; Si vis pacem, para bellum</div>
   <div class="wrap">
     <div class="footer__grid">
       <div>
@@ -366,16 +377,16 @@
     </div>
     <div class="footer__base">
       <p>Attorney Advertising. Prior results do not guarantee a similar outcome. The information on this website is general information, not legal advice, and does not create an attorney–client relationship. Cohen &amp; McMullen, P.A., 1132 SE 3rd Avenue, Fort Lauderdale, FL 33316, (954) 523-7774. The hiring of a lawyer is an important decision that should not be based solely upon advertisements.</p>
-      <p>&copy; 2026 Cohen &amp; McMullen, P.A.</p>
+      <p>&copy; 2026 Cohen &amp; McMullen, P.A. &nbsp; <button class="motion-toggle link-line" type="button" aria-pressed="false">Pause motion</button></p>
     </div>
   </div>
 </footer>
-<div class="callbar"><a href="/contact/">Request a free case evaluation</a><a href="tel:+19545237774">Call now</a></div>
+<nav class="callbar" aria-label="Quick contact"><a href="/contact/">Request a free case evaluation</a><a href="tel:+19545237774">Call now</a></nav>
 <div class="curtain" aria-hidden="true"><div class="curtain__panel"></div><div class="curtain__edge"></div><img class="curtain__crest" src="/assets/img/brand/crest-sm.webp" alt="" width="141" height="260"></div>
 <div class="grain" aria-hidden="true"></div>
 <script src="/assets/js/vendor/gsap.min.js?v=3.12.5" defer></script>
 <script src="/assets/js/vendor/ScrollTrigger.min.js?v=3.12.5" defer></script>
 <script src="/assets/js/vendor/lenis.min.js?v=1.1.13" defer></script>
-<script src="/assets/js/site.js?v=b5837bcc" defer></script>
+<script src="/assets/js/site.js?v=0c576866" defer></script>
 </body>
 </html>

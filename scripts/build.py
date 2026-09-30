@@ -215,7 +215,7 @@ PRACTICES = {
         "desc": "Business disputes, partner and shareholder conflicts, and contract litigation. Cohen & McMullen, P.A. takes on the largest corporations. Free case evaluation: (954) 523-7774.",
         "tile": "Partner disputes, broken deals and corporate adversaries. We litigate to the finish.",
         "lede": "Because of the intimate nature of closely held companies, disputes often arise. For many owners the business is their passion, their dream and their livelihood, and we treat it that way.",
-        "answer": "Commercial litigation covers lawsuits between businesses, owners and partners: breach of contract, shareholder and partnership disputes, and business torts. Cohen & McMullen, P.A. litigates these cases in Florida and New York and is built to challenge large corporations.",
+        "answer": "Commercial litigation covers lawsuits between businesses, owners and partners: breach of contract, shareholder and partnership disputes, and business torts. Cohen & McMullen, P.A. litigates these cases in Florida and New York, including against large corporations.",
         "body": [
             ("How does the firm handle business disputes?", [
                 "Our team of trial lawyers gives clients the ability to challenge the largest of corporations. Bradford M. Cohen previously headed the trial division of a major commercial litigation firm, focusing on complex commercial litigation, banking regulation and UCC law.",
@@ -437,8 +437,8 @@ def link_people(text):
 def person_card(slug, heading="h3"):
     p = PEOPLE[slug]
     return f'''<a class="person" href="/{slug}/">
-  <img src="{p["img"]}" alt="Portrait of {e(p["name"])}, {e(p["role"])}" loading="lazy" decoding="async">
-  <div class="person__body"><{heading} class="person__name">{e(p["name"])}</{heading}><span class="person__role">{e(p["role"])}</span></div>
+  <img src="{p["img"]}" alt="" loading="lazy" decoding="async">
+  <div class="person__body"><span class="person__role">{e(p["role"])}</span><{heading} class="person__name">{e(p["name"])}</{heading}><p class="person__short">{e(p["short"])}</p><span class="person__more">Read biography</span></div>
 </a>'''
 
 
@@ -475,7 +475,7 @@ def hero(key, h1, lede, crumbs=None, actions=True, rail=True):
     acts = ""
     if actions:
         acts = f'<div class="film__actions" data-hero-fade><a class="btn btn--solid" href="/contact/">Request a free case evaluation</a><a class="btn" href="tel:{PHONE_TEL}">Call {PHONE}</a></div>'
-    rail_html = f'<p class="film__rail" aria-hidden="true">{MOTTO_LA}</p>' if rail else ""
+    rail_html = f'<p class="film__rail" aria-hidden="true" lang="la">{MOTTO_LA}</p>' if rail else ""
     return f'''<section class="film" aria-label="Introduction">
   <div class="film__media">{film_video(key, eager=True)}</div>
   {rail_html}
@@ -504,7 +504,7 @@ def header(current):
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu"><span class="menu-btn__label">Menu</span><span class="menu-btn__bars" aria-hidden="true"></span></button>
   </div>
 </header>
-<div class="menu" id="site-menu">
+<div class="menu" id="site-menu" role="dialog" aria-modal="true" aria-label="Site menu" data-lenis-prevent>
   <div class="menu__bg"></div><img class="menu__crest" src="/assets/img/brand/crest.webp" alt="" aria-hidden="true" loading="lazy" width="487" height="900">
   <div class="menu__films" aria-hidden="true">{films}</div>
   <div class="menu__inner">
@@ -517,6 +517,7 @@ def header(current):
       <p class="menu__label">New York</p>
       <address>745 Fifth Avenue, Suite 500<br>New York, NY 10151</address>
       <a class="btn btn--solid" href="tel:{PHONE_TEL}">Call {PHONE}</a>
+      <p><button class="motion-toggle link-line" type="button" aria-pressed="false">Pause motion</button></p>
     </div>
   </div>
 </div>'''
@@ -526,7 +527,7 @@ def footer():
     prac = "".join(f'<li><a href="/{s}/">{e(PRACTICES[s]["name"])}</a></li>' for s in PRACTICE_ORDER)
     ppl = "".join(f'<li><a href="/{s}/">{e(PEOPLE[s]["name"])}</a></li>' for s in PEOPLE_ORDER)
     return f'''<footer class="footer">
-  <div class="footer__big" aria-hidden="true">{MOTTO_LA} &nbsp; {MOTTO_LA}</div>
+  <div class="footer__big" aria-hidden="true" lang="la">{MOTTO_LA} &nbsp; {MOTTO_LA}</div>
   <div class="wrap">
     <div class="footer__grid">
       <div>
@@ -545,11 +546,11 @@ def footer():
     </div>
     <div class="footer__base">
       <p>Attorney Advertising. Prior results do not guarantee a similar outcome. The information on this website is general information, not legal advice, and does not create an attorney–client relationship. {e(FIRM)}, 1132 SE 3rd Avenue, Fort Lauderdale, FL 33316, {PHONE}. The hiring of a lawyer is an important decision that should not be based solely upon advertisements.</p>
-      <p>&copy; {date.today().year} {e(FIRM)}</p>
+      <p>&copy; {date.today().year} {e(FIRM)} &nbsp; <button class="motion-toggle link-line" type="button" aria-pressed="false">Pause motion</button></p>
     </div>
   </div>
 </footer>
-<div class="callbar"><a href="/contact/">Request a free case evaluation</a><a href="tel:{PHONE_TEL}">Call now</a></div>
+<nav class="callbar" aria-label="Quick contact"><a href="/contact/">Request a free case evaluation</a><a href="tel:{PHONE_TEL}">Call now</a></nav>
 <div class="curtain" aria-hidden="true"><div class="curtain__panel"></div><div class="curtain__edge"></div><img class="curtain__crest" src="/assets/img/brand/crest-sm.webp" alt="" width="141" height="260"></div>
 <div class="grain" aria-hidden="true"></div>'''
 
@@ -678,13 +679,12 @@ def page(path, title, desc, body, current, film, graph, speakable=True, page_typ
 <link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png">
 <link rel="icon" href="/favicon-192.png" sizes="192x192" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/bodoni-moda-normal-latin.woff2" crossorigin>
 <link rel="preload" as="image" href="{poster(film)}" imagesrcset="{poster(film, True)} 960w, {poster(film)} 1920w" imagesizes="100vw" fetchpriority="high">
 <link rel="stylesheet" href="/assets/css/fonts.css?v={ver('/assets/css/fonts.css')}">
 <link rel="stylesheet" href="/assets/css/site.css?v={ver('/assets/css/site.css')}">
 <script>(function(d){{var h=d.documentElement;try{{if(matchMedia('(prefers-reduced-motion: reduce)').matches)h.classList.remove('is-loading')}}catch(e){{}}setTimeout(function(){{if(h.classList.contains('is-loading')&&!window.__cmReady){{h.classList.remove('is-loading');h.classList.add('no-motion')}}}},3000)}})(document)</script>
 <script type="speculationrules">{{"prefetch":[{{"where":{{"href_matches":"/*"}},"eagerness":"moderate"}}]}}</script>
-<noscript><style>.curtain{{display:none}}[data-reveal]{{opacity:1;transform:none}}</style></noscript>
+<noscript><style>.curtain{{display:none}}[data-reveal]{{opacity:1;transform:none}}.film__media video,.tile__media video,.crest-film video,.rail__film video,.menu__films{{display:none}}</style></noscript>
 <script type="application/ld+json">{ld}</script>
 </head>
 <body>
@@ -749,12 +749,13 @@ HOME_FAQ = [
 
 
 def badges_marquee():
-    """Typographic marquee of outlets where Bradford M. Cohen has given legal commentary (source: his bio)."""
-    outlets = PEOPLE["bradford-cohen"]["media"]
-    row = "".join(f"<span>{e(o)}</span><em aria-hidden=\"true\">{MOTTO_LA}</em>" for o in outlets)
-    return (f'<section class="press" aria-label="Media commentary"><p class="press__label wrap">Legal commentary by Bradford M. Cohen has been featured on</p>'
-            f'<div class="marquee"><div class="marquee__row">{row}<span aria-hidden="true" class="press__dup">{row}</span></div></div></section>')
-
+    """Real network logos where Bradford M. Cohen has given legal commentary (source: his bio)."""
+    logos = [("cnn", "CNN"), ("fox-news", "Fox News"), ("nbc", "NBC"), ("cnbc", "CNBC")]
+    row = "".join(f'<li><img src="/assets/img/press/{k}.svg" alt="{e(n)}" loading="lazy" width="160" height="64"></li>' for k, n in logos)
+    others = "Law&Crime Network, The Dan Abrams Show, Nancy Grace and Celebrity Justice"
+    return (f'<section class="press" aria-labelledby="press-h"><div class="wrap">'
+            f'<p class="press__label" id="press-h">Legal commentary by <a class="link-line" href="/bradford-cohen/">Bradford M. Cohen</a> has been featured on</p>'
+            f'<ul class="press__logos">{row}</ul><p class="press__more">Also {e(others)}.</p></div></section>')
 
 def city_tiles(la_cls='style="grid-column: span 3"'):
     return f'''
@@ -802,7 +803,7 @@ def build_home():
   <div class="manifesto__stage">
     <div class="film__media">{film_video("sword")}</div>
     <div class="wrap">
-      <p class="motto" style="position:relative;z-index:2;margin-bottom:24px">{MOTTO_LA}.</p>
+      <p class="motto" lang="la" style="position:relative;z-index:2;margin-bottom:24px">{MOTTO_LA}.</p>
       <p class="manifesto__text">If you want peace, prepare for war. We prepare every case as if a jury is waiting.</p>
       <p class="manifesto__body">That preparation shapes every negotiation, and it protects you when a case does go to trial.</p>
     </div>
@@ -812,7 +813,7 @@ def build_home():
 <section class="section" aria-labelledby="people-h">
   <div class="wrap">
     <div class="head-row"><h2 id="people-h" data-reveal>The trial team</h2><p data-reveal>Partners and an associate with experience prosecuting, defending and trying cases in state and federal court. <a class="link-line" href="/people/">Meet everyone</a></p></div>
-    <div class="people-pin"><div class="people-track">{people}</div></div>
+    <div class="people-grid people-grid--four">{people}</div>
   </div>
 </section>
 
@@ -827,7 +828,7 @@ def build_home():
 
 <section class="crest-film" aria-label="The firm crest">
   {film_video("crest")}
-  <div class="crest-film__cap"><p class="motto">{MOTTO_LA}</p><p class="muted">{MOTTO_EN}</p></div>
+  <div class="crest-film__cap"><p class="motto" lang="la">{MOTTO_LA}</p><p class="muted">{MOTTO_EN}</p></div>
 </section>
 
 <section class="section" aria-labelledby="faq-h">
@@ -886,7 +887,18 @@ def build_practice(slug):
 {hero(p["film"], p["h1"], p["lede"], crumbs)}
 <section class="section" aria-label="{e(p["name"])} overview">
   <div class="wrap split">
-    <div><p class="answer" data-reveal>{e(p["answer"])}</p></div>
+    <aside class="rail" aria-label="Talk to an attorney">
+      <p class="answer" data-reveal>{e(p["answer"])}</p>
+      <div class="rail__card" data-reveal>
+        <div class="rail__film">{tile_video(p["film"])}</div>
+        <div class="rail__body">
+          <p class="rail__title">Talk to an attorney about {e(p["name"].lower())}</p>
+          <p class="rail__team">{", ".join(f'<a class="link-line" href="/{t}/">{e(PEOPLE[t]["name"])}</a>' for t in p["team"])}</p>
+          <a class="btn btn--solid rail__btn" href="/contact/">Request a free case evaluation</a>
+          <a class="rail__phone" href="tel:{PHONE_TEL}">{PHONE}</a>
+        </div>
+      </div>
+    </aside>
     <div class="prose" data-reveal>
       {prose}
       <h2>What to know in Florida</h2>
@@ -946,7 +958,7 @@ def build_about():
     <div class="prose" data-reveal>
       <p class="lede">We are a boutique law firm with offices in South Florida and New York, and a third location being opened in Los Angeles. Our geographic reach gives us the strategic flexibility to serve clients in many sectors in an ever-changing environment.</p>
       <p>Having a team of skilled litigators allows our clients to challenge the largest of corporations. When we represent victims of wrongful conduct, we focus on holding individuals and corporations responsible while pursuing the best possible outcome for our clients.</p>
-      <blockquote class="pull">{MOTTO_LA}. {MOTTO_EN}.</blockquote>
+      <blockquote class="pull"><span lang="la">{MOTTO_LA}</span>. {MOTTO_EN}.</blockquote>
       <p>The motto on our crest is also how we work. A file built for trial is the strongest position from which to negotiate. So we build every one that way.</p>
       <dl class="facts">
         <div><dt>Firm</dt><dd>{e(FIRM)}, a boutique law firm for complex litigation and criminal defense</dd></div>
@@ -1163,7 +1175,7 @@ def build_contact():
       <address style="font-style:normal;margin-top:30px"><strong>Fort Lauderdale</strong><br>1132 SE 3rd Avenue, Fort Lauderdale, FL 33316</address>
       <address style="font-style:normal;margin-top:18px"><strong>New York</strong><br>745 Fifth Avenue, Suite 500, New York, NY 10151</address>
     </div>
-    <form class="form" data-evaluation data-endpoint="" data-reveal>
+    <form class="form" data-evaluation data-endpoint="" action="mailto:info@floridajusticefirm.com" method="post" enctype="text/plain" data-reveal>
       <div class="form__row">
         <div class="field"><input id="f-name" name="name" type="text" autocomplete="name" placeholder=" " required><label for="f-name">Your name</label></div>
         <div class="field"><input id="f-phone" name="phone" type="tel" autocomplete="tel" placeholder=" " required><label for="f-phone">Phone number</label></div>
