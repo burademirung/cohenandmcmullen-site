@@ -9,3 +9,6 @@ runway-raw/
 node_modules/
 .DS_Store
 __pycache__/
+runway-real/
+runway-stills/
+runway-picks/

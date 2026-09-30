@@ -69,8 +69,8 @@ FILMS = {
     "office": "A private law office at night, a desk lamp glowing against a rain-streaked city window.",
     "card": "An unbranded metal credit card and a billing statement on black marble under a sweep of light.",
     "chess": "A marble and brass chess king under a single spotlight.",
-    "evidence": "Case files, photographs and a gavel spread across a table under a spotlight.",
-    "crest": "The gold Cohen & McMullen crest: shield, sword and interlocking M and C monogram, catching a sweep of light.",
+    "evidence": "A litigation war room at night: trial binders, a legal pad and a banker's lamp above the city.",
+    "crest": "The Cohen & McMullen crest cast in gold and navy enamel on a lobby wall, catching a sweep of light.",
 }
 
 
