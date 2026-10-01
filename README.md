@@ -42,4 +42,4 @@ Edit copy in `scripts/build.py` (dicts `PEOPLE`, `PRACTICES`, `FLORIDA`, `HOME_F
 ## Design rules from the brief
 No icons, no numbered markers or stat counters, tiles with real footage, full-screen film on every page, the firm's crest everywhere. No custom cursor and no page-transition screen (removed at the client's request); links are prefetched so navigation is instant. The header keeps "Request a free case evaluation" visible at all times, and phones get a pinned evaluation bar. Motion respects `prefers-reduced-motion`, data-saver connections skip films, and a static fallback shows all content if animation frames never run.
 
-See `HANDOFF.md` for launch decisions that need the firm's input.
+See `HANDOFF.md` for launch decisions that need the firm's input and `CHANGELOG.md` for the history of each review round.

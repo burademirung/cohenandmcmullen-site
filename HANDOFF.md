@@ -1,6 +1,6 @@
 # Cohen & McMullen, P.A. — launch handoff
 
-Live preview: https://cohenandmcmullen.burademirung.workers.dev
+Live preview: https://cohenandmcmullen.burademirung.workers.dev · Repository: https://github.com/burademirung/cohenandmcmullen-site · Status as of 2026-09-30: deployed, awaiting the firm's decisions below.
 Repository layout and commands: see `README.md`.
 
 ## Review completed (2026-09-30)
